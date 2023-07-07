@@ -1,5 +1,10 @@
 import type { GenerationParameters } from "./GenerationParameters";
+import { getBoxContainerModel } from "./modelGeneration";
+import stlSerializer from '@jscad/stl-serializer';
 
-export const generateBox = (parameters: GenerationParameters) => {
-  console.log(`TODO: Generate model with parameters ${JSON.stringify(parameters)}`);
+export const generateBoxContainer = (parameters: GenerationParameters) => {
+  const model = getBoxContainerModel(parameters);
+  const stlData = stlSerializer.serialize({binary: true}, model);
+  const stlBlob = new Blob(stlData);
+  return stlBlob;
 }

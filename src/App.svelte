@@ -1,7 +1,8 @@
 <script lang="ts">
   import NumberField from "./components/NumberField.svelte";
-    import type { GenerationParameters } from "./generation/GenerationParameters";
-    import { generateBox } from "./generation/generate";
+  import type { GenerationParameters } from "./generation/GenerationParameters";
+  import { generateBoxContainer } from "./generation/generate";
+  import { downloadBlob } from "./util/downloadBlob";
 
   let parameters: GenerationParameters = {
     innerLength: 0,
@@ -10,6 +11,10 @@
     wallThickness: 0
   };
 
+  const generate = () => {
+    const blob = generateBoxContainer(parameters);
+    downloadBlob(blob, 'Box.stl');
+  }
 </script>
 
 <main>
@@ -33,14 +38,8 @@
     suffix={"mm"}
     bind:value={parameters.wallThickness}
   />
-  <button on:click={() => generateBox(parameters)}>Generate</button>
+  <button on:click={() => generate()}>Generate</button>
 </main>
-<p>
-  {parameters.innerLength}
-  {parameters.innerWidth}
-  {parameters.innerHeight}
-  {parameters.wallThickness}
-</p>
 
 <style>
 </style>
