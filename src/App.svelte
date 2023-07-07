@@ -1,5 +1,6 @@
 <script lang="ts">
-  import NumberField from "./components/NumberField.svelte";
+  import Info from "./components/Info.svelte";
+  import ParameterForm from "./components/ParameterForm.svelte";
   import type { GenerationParameters } from "./generation/GenerationParameters";
   import { generateBoxContainer } from "./generation/generate";
   import { downloadBlob } from "./util/downloadBlob";
@@ -18,28 +19,16 @@
 </script>
 
 <main>
-  <NumberField
-    label={"Inner length"}
-    suffix={"mm"}
-    bind:value={parameters.innerLength}
+  <Info />
+  <ParameterForm 
+    bind:parameters={parameters}
+    generate={generate}
   />
-  <NumberField
-    label={"Inner width"}
-    suffix={"mm"}
-    bind:value={parameters.innerWidth}
-  />
-  <NumberField
-    label={"Inner height"}
-    suffix={"mm"}
-    bind:value={parameters.innerHeight}
-  />
-  <NumberField
-    label={"Wall thickness"}
-    suffix={"mm"}
-    bind:value={parameters.wallThickness}
-  />
-  <button on:click={() => generate()}>Generate</button>
 </main>
 
 <style>
+  main {
+    font-family: Helvetica, sans-serif;
+    margin: 30px;
+  }
 </style>
