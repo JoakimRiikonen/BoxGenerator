@@ -11,14 +11,12 @@ export interface InitRenderedParams {
 }
 
 export const renderPreview = (params: InitRenderedParams) => {
-  const perspectiveCamera = cameras.perspective;
-  const cameraState = Object.assign({}, perspectiveCamera.defaults);
 
   const options = {
     glOptions: {
       canvas: params.canvas
     },
-    camera: cameraState,
+    camera: initCamera(params.size.width, params.size.height),
       drawCommands: {
       drawAxis: drawCommands.drawAxis,
       drawGrid: drawCommands.drawGrid,
@@ -47,4 +45,13 @@ export const renderPreview = (params: InitRenderedParams) => {
 
   let renderer = prepareRender(options);
   renderer(options);
+}
+
+const initCamera = (width: number, height: number) => {
+  const perspectiveCamera = cameras.perspective;
+  const cameraState = Object.assign({}, perspectiveCamera.defaults);
+  perspectiveCamera.setProjection(cameraState, cameraState, {width, height});
+  perspectiveCamera.update(cameraState, cameraState);
+
+  return cameraState
 }
