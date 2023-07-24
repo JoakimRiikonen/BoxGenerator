@@ -16,11 +16,22 @@
     padding: 5px 0;
     display: flex;
     justify-content: space-between;
+    max-width: 90vw;
   }
 
   input {
     padding: 5px;
     border: 1px solid grey;
     border-radius: 3px;
+  }
+  
+  @media (orientation: portrait){
+    label {
+      flex-direction: column;
+    }
+
+    input {
+      margin-top: 5px;
+    }
   }
 </style>

@@ -2,6 +2,7 @@
   import type { GenerationParameters } from "../generation/GenerationParameters";
   import Button from "./Button.svelte";
   import NumberField from "./NumberField.svelte";
+  import SubTitle from "./SubTitle.svelte";
 
   export let parameters: GenerationParameters;
   export let generate: () => void;
@@ -9,12 +10,12 @@
 
 <div class="container">
   <Button 
-    text={"Generate"}
+    text={"Download STL"}
     onClick={generate}
   />
 
   <div class="inner-container">
-    <h2>Dimensions</h2>
+    <SubTitle>Dimensions</SubTitle>
 
     <NumberField
       label={"Inner length"}
@@ -33,7 +34,7 @@
     />
   </div>
   <div class="inner-container">
-    <h2>Walls</h2>
+    <SubTitle>Walls</SubTitle>
     <NumberField
       label={"Wall thickness"}
       suffix={"mm"}
@@ -53,13 +54,5 @@
     width: 400px;
     display: flex;
     flex-direction: column;
-  }
-
-  h2 {
-    color: #A084DC;
-    margin: 0;
-    margin-top: 30px;
-    margin-bottom: 10px;
-    font-weight: normal;
   }
 </style>
