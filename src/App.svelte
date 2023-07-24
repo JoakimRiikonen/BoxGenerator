@@ -3,7 +3,7 @@
   import ModelDisplay from "./components/ModelDisplay.svelte";
   import ParameterForm from "./components/ParameterForm.svelte";
   import type { GenerationParameters } from "./generation/GenerationParameters";
-  import { convertToSTL } from "./generation/generate";
+  import { convertToSTL } from "./generation/convert";
   import { getBoxContainerModel } from "./generation/modelGeneration";
   import { downloadBlob } from "./util/downloadBlob";
 
