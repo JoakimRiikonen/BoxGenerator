@@ -5,4 +5,9 @@ export interface GenerationParameters {
   usingOuterDimensions: boolean;
   wallThickness: number;
   bottomThickness: number;
+
+  generateLid: boolean;
+  lidOuterThickness: number;
+  lidInnerThickness: number;
+  toleranceGap: number;
 }

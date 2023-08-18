@@ -2,22 +2,36 @@
   import type { GenerationParameters } from "../generation/GenerationParameters";
   import Button from "./Button.svelte";
   import NumberField from "./NumberField.svelte";
-    import Spacer from "./Spacer.svelte";
+  import Spacer from "./Spacer.svelte";
   import SubTitle from "./SubTitle.svelte";
   import ToggleField from "./ToggleField.svelte";
 
   export let parameters: GenerationParameters;
-  export let generate: () => void;
+  export let generateBox: () => void;
+  export let generateLid: () => void;
 
   $: labelPrefix = parameters.usingOuterDimensions ? 'Outer' : 'Inner';
 
 </script>
 
 <div class="container">
-  <Button 
-    text={"Download STL"}
-    onClick={generate}
-  />
+  {#if parameters.generateLid}
+    <div>
+      <Button 
+        text={"Download box STL"}
+        onClick={generateBox}
+      />
+      <Button 
+        text={"Download lid STL"}
+        onClick={generateLid}
+      />
+    </div>
+  {:else}
+    <Button 
+      text={"Download STL"}
+      onClick={generateBox}
+    />
+  {/if}
 
   <div class="inner-container">
     <SubTitle>Dimensions</SubTitle>
@@ -56,6 +70,36 @@
       label={"Bottom thickness"}
       suffix={"mm"}
       bind:value={parameters.bottomThickness}
+    />
+  </div>
+
+  <div class="inner-container">
+    <SubTitle>Lid</SubTitle>
+
+    <ToggleField 
+      label={"Generate lid"}
+      bind:value={parameters.generateLid}
+    />
+
+    <Spacer />
+
+    <NumberField
+      label={"Lid outer thickness"}
+      suffix={"mm"}
+      bind:value={parameters.lidOuterThickness}
+      disabled={!parameters.generateLid}
+    />
+    <NumberField
+      label={"Lid inner thickness"}
+      suffix={"mm"}
+      bind:value={parameters.lidInnerThickness}
+      disabled={!parameters.generateLid}
+    />
+    <NumberField
+      label={"Tolerance gap"}
+      suffix={"mm"}
+      bind:value={parameters.toleranceGap}
+      disabled={!parameters.generateLid}
     />
   </div>
 </div>

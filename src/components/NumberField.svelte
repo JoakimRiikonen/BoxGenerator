@@ -2,11 +2,12 @@
   export let value = 0;
   export let label;
   export let suffix = "";
+  export let disabled = false;
 </script>
-<label>
+<label class={disabled && "disabled"}>
   {label}
   <span>
-    <input type="number" bind:value={value} min="0"/>
+    <input type="number" bind:value={value} min="0" disabled={disabled}/>
     {suffix}
   </span>
 </label>
@@ -17,6 +18,10 @@
     display: flex;
     justify-content: space-between;
     max-width: 90vw;
+  }
+
+  .disabled {
+    color: #ccc;
   }
 
   input {

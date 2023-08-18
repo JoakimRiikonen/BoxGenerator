@@ -4,24 +4,34 @@
   import ParameterForm from "./components/ParameterForm.svelte";
   import type { GenerationParameters } from "./generation/GenerationParameters";
   import { convertToSTL } from "./generation/convert";
-  import { getBoxContainerModel } from "./generation/modelGeneration";
+  import { getBoxContainerModel, getBoxLidModel, getCompleteModel } from "./generation/modelGeneration";
   import { downloadBlob } from "./util/downloadBlob";
 
   let parameters: GenerationParameters = {
-    length: 0,
-    width: 0,
-    height: 0,
+    length: 50,
+    width: 50,
+    height: 50,
     usingOuterDimensions: false,
-    wallThickness: 0,
-    bottomThickness: 0,
+    wallThickness: 5,
+    bottomThickness: 5,
+    generateLid: false,
+    lidInnerThickness: 5,
+    lidOuterThickness: 5,
+    toleranceGap: 0.25
   };
 
-  $: model = getBoxContainerModel(parameters);
+  $: model = getCompleteModel(parameters);
 
-  const generate = () => {
-    const blob = convertToSTL(model);
+  const generateBox = () => {
+    const blob = convertToSTL(getBoxContainerModel(parameters));
     downloadBlob(blob, 'Box.stl');
   }
+
+  const generateLid = () => {
+    const blob = convertToSTL(getBoxLidModel(parameters));
+    downloadBlob(blob, 'Lid.stl');
+  }
+
 </script>
 
 <main>
@@ -29,7 +39,8 @@
   <div class="container">
     <ParameterForm 
       bind:parameters={parameters}
-      generate={generate}
+      generateBox={generateBox}
+      generateLid={generateLid}
     />
     <ModelDisplay 
       model={model}
