@@ -46,11 +46,16 @@
     />
   </div>
   <div class="inner-container">
-    <SubTitle>Walls</SubTitle>
+    <SubTitle>Walls and bottom</SubTitle>
     <NumberField
       label={"Wall thickness"}
       suffix={"mm"}
       bind:value={parameters.wallThickness}
+    />
+    <NumberField
+      label={"Bottom thickness"}
+      suffix={"mm"}
+      bind:value={parameters.bottomThickness}
     />
   </div>
 </div>

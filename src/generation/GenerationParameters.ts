@@ -4,4 +4,5 @@ export interface GenerationParameters {
   height: number;
   usingOuterDimensions: boolean;
   wallThickness: number;
+  bottomThickness: number;
 }

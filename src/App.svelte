@@ -12,7 +12,8 @@
     width: 0,
     height: 0,
     usingOuterDimensions: false,
-    wallThickness: 0
+    wallThickness: 0,
+    bottomThickness: 0,
   };
 
   $: model = getBoxContainerModel(parameters);
