@@ -18,8 +18,13 @@ export const getCylinderLidModel = (parameters: GenerationParameters) => {
   if (!isValidCylinderParameters(parameters)) {
     return undefined;
   }
-  // TODO
-  return primitives.cylinder();
+
+  const lid = booleans.union(
+    getOuterLid(parameters),
+    getInnerLid(parameters)
+  )
+
+  return lid;
 }
 
 export const getCompleteCylinderModel = (parameters: GenerationParameters) => {
@@ -48,7 +53,7 @@ const getOuterCylinder = (parameters: GenerationParameters) => {
   }
 
   return primitives.cylinder({
-    height: parameters.height + parameters.bottomThickness,
+    height: parameters.height + parameters.bottomThickness + (parameters.generateLid ? parameters.lidInnerThickness : 0),
     radius: parameters.diameter/2 + parameters.wallThickness,
     segments: parameters.segments,
   })
@@ -65,9 +70,51 @@ const getInnerCylinder = (parameters: GenerationParameters) => {
   }
 
   return primitives.cylinder({
-    height: parameters.height,
+    height: parameters.height + (parameters.generateLid ? parameters.lidInnerThickness : 0),
     radius: parameters.diameter/2,
     center: [0, 0, parameters.bottomThickness/2],
+    segments: parameters.segments,
+  })
+}
+
+const getOuterLid = (parameters: GenerationParameters) => {
+  if (parameters.usingOuterDimensions) {
+    return primitives.cylinder({
+      height: parameters.lidOuterThickness,
+      radius: parameters.diameter/2,
+      segments: parameters.segments,
+    })
+  }
+
+  return primitives.cylinder({
+    height: parameters.lidOuterThickness,
+    radius: parameters.diameter/2 + parameters.wallThickness,
+    segments: parameters.segments,
+  })
+}
+
+const getInnerLid = (parameters: GenerationParameters) => {
+  if (parameters.usingOuterDimensions) {
+    return primitives.cylinder({
+      height: parameters.lidInnerThickness,
+      radius: parameters.diameter/2 - (parameters.toleranceGap + parameters.wallThickness),
+      center: [
+        0,
+        0,
+        parameters.lidOuterThickness/2 + parameters.lidInnerThickness/2
+      ],
+      segments: parameters.segments,
+    })
+  }
+
+  return primitives.cylinder({
+    height: parameters.lidInnerThickness,
+    radius: parameters.diameter/2,
+    center: [
+      0,
+      0,
+      parameters.lidOuterThickness/2 + parameters.lidInnerThickness/2
+    ],
     segments: parameters.segments,
   })
 }
