@@ -8,9 +8,10 @@
   import { downloadBlob } from "./util/downloadBlob";
 
   let parameters: GenerationParameters = {
-    innerLength: 0,
-    innerWidth: 0,
-    innerHeight: 0,
+    length: 0,
+    width: 0,
+    height: 0,
+    usingOuterDimensions: false,
     wallThickness: 0
   };
 

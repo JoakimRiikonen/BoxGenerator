@@ -14,28 +14,53 @@ export const getBoxContainerModel = (parameters: GenerationParameters) => {
 }
 
 const validParameters = (parameters: GenerationParameters) => {
-  return parameters.innerHeight > 0
-    && parameters.innerLength > 0
-    && parameters.innerWidth > 0
+  return parameters.height > 0
+    && parameters.length > 0
+    && parameters.width > 0
     && parameters.wallThickness > 0
 }
 
 const getOuterBox = (parameters: GenerationParameters) => {
+  if (parameters.usingOuterDimensions) {
+    return primitives.cuboid({
+      size: [
+        parameters.length,
+        parameters.width,
+        parameters.height,
+      ]
+    });
+  }
+
   return primitives.cuboid({
     size: [
-      parameters.wallThickness*2 + parameters.innerLength,
-      parameters.wallThickness*2 + parameters.innerWidth,
-      parameters.wallThickness + parameters.innerHeight,
+      parameters.wallThickness*2 + parameters.length,
+      parameters.wallThickness*2 + parameters.width,
+      parameters.wallThickness + parameters.height,
     ]
   });
 }
 
 const getInnerBox = (parameters: GenerationParameters) => {
+  if (parameters.usingOuterDimensions) {
+    return primitives.cuboid({
+      size: [
+        parameters.length - parameters.wallThickness*2,
+        parameters.width - parameters.wallThickness*2,
+        parameters.height - parameters.wallThickness,
+      ],
+      center: [
+        0,
+        0,
+        parameters.wallThickness / 2
+      ]
+    });
+  }
+
   return primitives.cuboid({
     size: [
-      parameters.innerLength,
-      parameters.innerWidth,
-      parameters.innerHeight,
+      parameters.length,
+      parameters.width,
+      parameters.height,
     ],
     center: [
       0,

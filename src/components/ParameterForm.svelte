@@ -2,10 +2,15 @@
   import type { GenerationParameters } from "../generation/GenerationParameters";
   import Button from "./Button.svelte";
   import NumberField from "./NumberField.svelte";
+    import Spacer from "./Spacer.svelte";
   import SubTitle from "./SubTitle.svelte";
+  import ToggleField from "./ToggleField.svelte";
 
   export let parameters: GenerationParameters;
   export let generate: () => void;
+
+  $: labelPrefix = parameters.usingOuterDimensions ? 'Outer' : 'Inner';
+
 </script>
 
 <div class="container">
@@ -17,20 +22,27 @@
   <div class="inner-container">
     <SubTitle>Dimensions</SubTitle>
 
+    <ToggleField
+      label="Use outer dimensions"
+      bind:value={parameters.usingOuterDimensions}
+    />
+
+    <Spacer />
+
     <NumberField
-      label={"Inner length"}
+      label={`${labelPrefix} length`}
       suffix={"mm"}
-      bind:value={parameters.innerLength}
+      bind:value={parameters.length}
     />
     <NumberField
-      label={"Inner width"}
+      label={`${labelPrefix} width`}
       suffix={"mm"}
-      bind:value={parameters.innerWidth}
+      bind:value={parameters.width}
     />
     <NumberField
-      label={"Inner height"}
+      label={`${labelPrefix} height`}
       suffix={"mm"}
-      bind:value={parameters.innerHeight}
+      bind:value={parameters.height}
     />
   </div>
   <div class="inner-container">

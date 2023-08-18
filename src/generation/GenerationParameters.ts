@@ -1,6 +1,7 @@
 export interface GenerationParameters {
-  innerLength: number;
-  innerWidth: number;
-  innerHeight: number;
+  length: number;
+  width: number;
+  height: number;
+  usingOuterDimensions: boolean;
   wallThickness: number;
 }
