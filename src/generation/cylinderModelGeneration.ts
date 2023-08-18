@@ -33,14 +33,18 @@ export const getCompleteCylinderModel = (parameters: GenerationParameters) => {
     [parameters.diameter + parameters.wallThickness + 50, 0, parameters.height/2], lid
   );
 
-  let completeModel = booleans.union(cyl, lid);
+  let completeModel = booleans.union(cyl, movedLid);
 
   return completeModel;
 }
 
 const getOuterCylinder = (parameters: GenerationParameters) => {
   if (parameters.usingOuterDimensions) {
-    // TODO
+    return primitives.cylinder({
+      height: parameters.height,
+      radius: parameters.diameter/2,
+      segments: parameters.segments,
+    })
   }
 
   return primitives.cylinder({
@@ -52,7 +56,12 @@ const getOuterCylinder = (parameters: GenerationParameters) => {
 
 const getInnerCylinder = (parameters: GenerationParameters) => {
   if (parameters.usingOuterDimensions) {
-    // TODO
+    return primitives.cylinder({
+      height: parameters.height - parameters.bottomThickness,
+      radius: parameters.diameter/2 - parameters.wallThickness,
+      center: [0, 0, parameters.bottomThickness/2],
+      segments: parameters.segments,
+    })
   }
 
   return primitives.cylinder({
@@ -66,5 +75,8 @@ const getInnerCylinder = (parameters: GenerationParameters) => {
 const isValidCylinderParameters = (parameters: GenerationParameters) => {
   return isValidSharedParameters(parameters)
     && parameters.diameter > 0
-    && parameters.segments >= 4;
+    && parameters.segments >= 4
+    && (parameters.usingOuterDimensions
+      ? parameters.wallThickness < parameters.diameter/2
+      : true)
 }
