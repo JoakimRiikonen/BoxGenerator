@@ -2,15 +2,19 @@
   import Info from "./components/Info.svelte";
   import ModelDisplay from "./components/ModelDisplay.svelte";
   import ParameterForm from "./components/ParameterForm.svelte";
+    import { ContainerTypes } from "./generation/ContainerTypes";
   import type { GenerationParameters } from "./generation/GenerationParameters";
   import { convertToSTL } from "./generation/convert";
-  import { getBoxContainerModel, getBoxLidModel, getCompleteModel } from "./generation/modelGeneration";
+  import { getContainerModel, getLidModel, getCompleteModel } from "./generation/modelGeneration";
   import { downloadBlob } from "./util/downloadBlob";
 
   let parameters: GenerationParameters = {
+    containerType: ContainerTypes.Box,
     length: 50,
     width: 50,
     height: 50,
+    diameter: 50,
+    segments: 72,
     usingOuterDimensions: false,
     wallThickness: 5,
     bottomThickness: 5,
@@ -23,12 +27,12 @@
   $: model = getCompleteModel(parameters);
 
   const generateBox = () => {
-    const blob = convertToSTL(getBoxContainerModel(parameters));
-    downloadBlob(blob, 'Box.stl');
+    const blob = convertToSTL(getContainerModel(parameters));
+    downloadBlob(blob, 'Container.stl');
   }
 
   const generateLid = () => {
-    const blob = convertToSTL(getBoxLidModel(parameters));
+    const blob = convertToSTL(getLidModel(parameters));
     downloadBlob(blob, 'Lid.stl');
   }
 

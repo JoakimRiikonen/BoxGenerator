@@ -6,9 +6,9 @@
 </script>
 <label class={disabled && "disabled"}>
   {label}
-  <span>
+  <span class="input-container">
     <input type="number" bind:value={value} min="0" disabled={disabled}/>
-    {suffix}
+    <span class="suffix">{suffix}</span>
   </span>
 </label>
 
@@ -22,6 +22,10 @@
 
   .disabled {
     color: #ccc;
+  }
+
+  .input-container {
+    width: 200px;
   }
 
   input {

@@ -1,7 +1,9 @@
 <script lang="ts">
+    import { ContainerTypes } from "../generation/ContainerTypes";
   import type { GenerationParameters } from "../generation/GenerationParameters";
   import Button from "./Button.svelte";
   import NumberField from "./NumberField.svelte";
+    import RadioButton from "./RadioButton.svelte";
   import Spacer from "./Spacer.svelte";
   import SubTitle from "./SubTitle.svelte";
   import ToggleField from "./ToggleField.svelte";
@@ -34,6 +36,14 @@
   {/if}
 
   <div class="inner-container">
+    <SubTitle>Container type</SubTitle>
+    <div role="radiogroup">
+      <RadioButton label="Box" bind:group={parameters.containerType} name={"Type"} value={ContainerTypes.Box}/>
+      <RadioButton label="Cylinder" bind:group={parameters.containerType} name={"Type"} value={ContainerTypes.Cylinder}/>
+    </div>
+  </div>
+
+  <div class="inner-container">
     <SubTitle>Dimensions</SubTitle>
 
     <ToggleField
@@ -43,16 +53,24 @@
 
     <Spacer />
 
-    <NumberField
-      label={`${labelPrefix} length`}
-      suffix={"mm"}
-      bind:value={parameters.length}
-    />
-    <NumberField
-      label={`${labelPrefix} width`}
-      suffix={"mm"}
-      bind:value={parameters.width}
-    />
+    {#if parameters.containerType === ContainerTypes.Box}
+      <NumberField
+        label={`${labelPrefix} length`}
+        suffix={"mm"}
+        bind:value={parameters.length}
+      />
+      <NumberField
+        label={`${labelPrefix} width`}
+        suffix={"mm"}
+        bind:value={parameters.width}
+      />
+    {:else if parameters.containerType === ContainerTypes.Cylinder}
+      <NumberField
+        label={`${labelPrefix} diameter`}
+        suffix={"mm"}
+        bind:value={parameters.diameter}
+      />
+    {/if}
     <NumberField
       label={`${labelPrefix} height`}
       suffix={"mm"}
@@ -61,8 +79,15 @@
   </div>
   <div class="inner-container">
     <SubTitle>Walls and bottom</SubTitle>
+    {#if parameters.containerType === ContainerTypes.Cylinder}
+      <NumberField
+        label={`Segments`}
+        suffix={""}
+        bind:value={parameters.segments}
+      />
+    {/if}
     <NumberField
-      label={"Wall thickness"}
+      label={"Wall thickness (mm)"}
       suffix={"mm"}
       bind:value={parameters.wallThickness}
     />
@@ -84,13 +109,13 @@
     <Spacer />
 
     <NumberField
-      label={"Lid outer thickness"}
+      label={"Lid outer height"}
       suffix={"mm"}
       bind:value={parameters.lidOuterThickness}
       disabled={!parameters.generateLid}
     />
     <NumberField
-      label={"Lid inner thickness"}
+      label={"Lid inner height"}
       suffix={"mm"}
       bind:value={parameters.lidInnerThickness}
       disabled={!parameters.generateLid}

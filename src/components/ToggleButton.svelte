@@ -33,7 +33,7 @@
     right: 0;
     bottom: 0;
     background-color: #ccc;
-    transition: 0.4s;
+    transition: 0.2s;
     cursor: pointer;
     border-radius: 34px;
   }
@@ -46,7 +46,7 @@
     height: 26px;
     width: 26px;
     background-color: white;
-    transition: 0.4s;
+    transition: 0.2s;
     border-radius: 50%;
   }
 
