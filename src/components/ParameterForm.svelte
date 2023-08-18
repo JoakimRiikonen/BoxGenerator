@@ -20,7 +20,7 @@
   {#if parameters.generateLid}
     <div>
       <Button 
-        text={"Download box STL"}
+        text={"Download container STL"}
         onClick={generateBox}
       />
       <Button 
