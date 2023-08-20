@@ -8,7 +8,7 @@ A simple client-side tool that can be used to generate custom-sized boxes/contai
 ## Running locally
 
 ### Prerequisites
-+ python >= 3.7.3
++ npm >= 8.15.0
 + node >= v16.17.1
   
 ### Installing and running
